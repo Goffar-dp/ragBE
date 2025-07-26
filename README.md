@@ -179,9 +179,9 @@ Our multi-pronged extraction strategy, particularly the OCR fallback, aims to ma
 
 📌 What chunking strategy was used and why?
 
-RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunking strategy.
+ragBE utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunking strategy.
 -   **Mechanism:** This splitter operates by attempting to split text using a list of separators, starting with larger, more semantically meaningful ones (e.g., `"\n\n"` for paragraphs, then `"\n"` for lines, then spaces). If a chunk still exceeds the `chunk_size` after trying larger separators, it then recursively splits by smaller delimiters until the `chunk_size` is met.
--   **Bengali-Specific Delimiter:** Crucially, for Bengali text, the `।` (Danda - the Bengali full stop) is included in the list of separators. This ensures that Bengali sentences are respected as natural breaking points, maintaining semantic integrity within chunks.
+-   **Bengali-Specific Delimiter:** Crucially, for Bengali text, the `।` (Dari - the Bengali full stop) is included in the list of separators. This ensures that Bengali sentences are respected as natural breaking points, maintaining semantic integrity within chunks.
 -   **`chunk_size` and `chunk_overlap`:** We configure a specific `chunk_size` (e.g., 1000 characters) to ensure chunks are large enough to contain sufficient context but small enough to be semantically focused. A `chunk_overlap` (e.g., 200 characters) is also used, which creates redundancy between adjacent chunks.
 -   **Why it works well for semantic retrieval:** This strategy is highly effective because:
     -   **Context Preservation:** It prioritizes keeping semantically related content together, preventing critical information from being split across unrelated chunks.
@@ -218,7 +218,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
 
 📌 Are results relevant? What can improve them?
 
--   **Observed Relevance:** Generally, the results demonstrate a good level of relevance, especially for short, factual queries that have direct answers within the indexed documents. The multilingual embedding model effectively bridges language barriers for semantic search. However, as indicated by evaluation metrics (e.g., an average relevance score of ~0.44), there is always room for improvement.
+-   **Observed Relevance:** Generally, the results demonstrate a good level of relevance, especially for short, factual queries that have direct answers within the indexed documents. The multilingual embedding model effectively bridges language barriers for semantic search. However, as indicated by evaluation metrics (e.g., an average relevance score of ~0.6098), there is always room for improvement.
 -   **Potential Improvements:**
     -   **Advanced Document Preprocessing:** Further refining OCR accuracy for low-quality scanned PDFs, or implementing more sophisticated parsing for complex document layouts (e.g., tables, figures), could ensure cleaner and more complete text for chunking.
     -   **Refined Chunking Strategies:** Experimenting with different `chunk_size` and `chunk_overlap` values, or exploring advanced techniques like "sentence window retrieval" or "hierarchical chunking," could yield more precise and contextually rich chunks.
