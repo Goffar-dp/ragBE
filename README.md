@@ -102,39 +102,32 @@ Ensure it's listed in `.gitignore`.
 ## 🧪 Evaluation Metrics
 
 **ragBE's** performance is rigorously assessed using an automated evaluation toolkit to ensure reliability and accuracy.
-- 📌 **Groundedness**: Checks if answer is context-supported
-
-- 📌 **Relevance**: Measures semantic similarity to query
-
-
-To run the evaluation, execute the script:
-
 
 ```bash
 python evaluate_rag.py
+```
 
----
-
-
-![🤖 ragBE](evaluation.PNG)
+- 📌 **Groundedness**: Checks if answer is context-supported
+- 📌 **Relevance**: Measures semantic similarity to query
+![Evaluation](evaluation.PNG)
 
 Based on the evaluation of 10 interactions, RagBi achieved an **Average Relevance Score of 0.6098**, indicating that the retrieved documents were generally quite pertinent to the queries. For **Groundedness**, 50% of responses were fully supported by the context, while 20% had partial support and 30% were not grounded. This highlights a strong foundation in relevance but also points to the need for further refinement to minimize ungrounded responses.
+
 ---
 
 ## 💬 Sample Queries
 
-Here are some examples of how 🤖ragBE responds to qrueries in both English and Bengali:
+Here are some examples of how 🤖ragBi responds to queries in both English and Bengali:
 
 > **BN:** অনুপমের বন্ধুর নাম কি?
 >
 > 🤖 "অনুপমের ছেলেবেলার বন্ধু হরিশ! সে কলকাতায় এসে লেখকের মন উতলা করেছে।"
 >
-> **EN:** Which model performed better
+> **EN:** Which model performed better?
 >
-> 🤖 "  Based on the provided text, the stacking ensemble classifier achieved the highest accuracy at 97.88% when analyzing tabular data. While BioBERT performed well among NLP approaches (90.34% accuracy), and the Tree of Thought prompting on Claude Sonnet showed 75% accuracy, the stacking ensemble model outperformed them all. "
+> 🤖 "Based on the provided text, the stacking ensemble classifier achieved the highest accuracy at 97.88% when analyzing tabular data. While BioBERT performed well among NLP approaches (90.34% accuracy), and the Tree of Thought prompting on Claude Sonnet showed 75% accuracy, the stacking ensemble model outperformed them all."
 
 For a visual representation of sample queries and their outputs, refer to the image below:
-Based on the evaluation of 10 interactions, RagBi achieved an **Average Relevance Score of 0.6098**, indicating that the retrieved documents were generally quite pertinent to the queries. For **Groundedness**, 50% of responses were fully supported by the context, while 20% had partial support and 30% were not grounded. This highlights a strong foundation in relevance but also points to the need for further refinement to minimize ungrounded responses.
 
  ![Sample Queries and Outputs](output.PNG)
 
