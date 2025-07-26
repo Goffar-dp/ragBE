@@ -8,8 +8,7 @@ Experience RagBi live on Streamlit Community Cloud!
 
 **[👉 Launch RagBi App](https://ragbe0.streamlit.app/)**
 
----
----
+-
 
 ## 🌟 Key Features
 
@@ -135,13 +134,7 @@ uvicorn api:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-## ☁️ Deployment Options
-
-**🚀 Streamlit Cloud**
-- url: 
+ 
 
 ---
 
