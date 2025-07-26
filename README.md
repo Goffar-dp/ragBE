@@ -1,3 +1,12 @@
+---
+title: RagBi - Bilingual RAG System
+emoji: 🤖
+colorFrom: purple
+colorTo: gray
+sdk: docker
+app_port: 8501 # Streamlit's default port
+---
+
 # 🤖 ragBE - Bilingual Retrieval-Augmented Generation (RAG) System
 
 
