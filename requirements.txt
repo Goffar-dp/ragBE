@@ -36,3 +36,6 @@ huggingface-hub
 # FastAPI (for API version)
 fastapi
 uvicorn
+
+# ... other dependencies ...
+pysqlite3
