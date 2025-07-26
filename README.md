@@ -127,9 +127,8 @@ Here are some examples of how 🤖ragBi responds to queries in both English and 
 >
 > 🤖 "Based on the provided text, the stacking ensemble classifier achieved the highest accuracy at 97.88% when analyzing tabular data. While BioBERT performed well among NLP approaches (90.34% accuracy), and the Tree of Thought prompting on Claude Sonnet showed 75% accuracy, the stacking ensemble model outperformed them all."
 
-For a visual representation of sample queries and their outputs, refer to the image below:
-
- ![Sample Queries and Outputs](output.PNG)
+- For a **visual** representation of sample queries and their outputs, refer to the image below:
+![Sample Queries and Outputs](output.PNG)
 
 ---
 
