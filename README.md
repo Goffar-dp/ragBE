@@ -1,27 +1,25 @@
 # 🤖 ragBE - Bilingual Retrieval-Augmented Generation (RAG) System
 
 
-**ragBE** (Retrieval-Augmented Generation - Bilingual) is a powerful and user-friendly RAG system designed for conversational Q&A in both **English** and **Bengla**.. Built using the **Google Gemini LLM** and orchestrated with **LangChain**, **ragBE** offers robust document ingestion (supporting **PDF, DOCX, and TXT files**), intelligent semantic search powered by multilingual embeddings (from paraphrase-multilingual-MiniLM-L12-v2), and efficient knowledge storage in ChromaDB. It provides a seamless experience through its interactive Streamlit web interface and a flexible FastAPI backend, complemented by automated evaluation metrics and user interaction logging for continuous improvement.
+**ragBE** (Retrieval-Augmented Generation - Bilingual) is a powerful and user-friendly RAG system designed for conversational Q&A in both **English** and **Bengla**.. Built using the **Google Gemini LLM** and orchestrated with **LangChain**, **ragBE** offers robust document ingestion (supporting **PDF, DOCX, and TXT files**), intelligent semantic search powered by multilingual embeddings (from paraphrase-multilingual-MiniLM-L12-v2), and efficient knowledge storage in **ChromaDB**.
 
  ## 🚀 Live Demo
 Experience RagBi live on Streamlit Community Cloud!
 
 **[👉 Launch RagBi App](https://ragbe0.streamlit.app/)**
-
--
+![🤖 ragBE](https://github.com/Goffar-dp/ragBE/blob/main/assets/interface.PNG?raw=true)
 
 ## 🌟 Key Features
 
--   🔤 **Bilingual Q&A**: Understands and answers queries in both English and Bengali, providing a seamless conversational experience.
+-   🔤 **Bilingual Q&A**: Understands and answers queries in both **English and Bengali**, providing a seamless conversational experience.
 -   📂 **Flexible Document Support**: Effortlessly ingests knowledge from various document formats, including **PDF, DOCX, and TXT files**.
 -   🧠 **Gemini LLM Integration**: Powered by the **Google Gemini LLM** via LangChain for intelligent and contextual response generation.
 -   🔍 **Semantic Search with Multilingual Embeddings**: Leverages advanced **multilingual embedding models** (like `paraphrase-multilingual-MiniLM-L12-v2`) for highly accurate, language-agnostic information retrieval.
--   🗄️ **Robust Vector Store**: Efficiently stores and retrieves document embeddings using **ChromaDB**, ensuring fast access to relevant information.
--   ✂️ **Intelligent Text Chunking**: Optimizes document processing by splitting text into meaningful chunks that preserve contextual meaning for better retrieval.
+-   🗄️ **Vector Store**: Efficiently stores and retrieves document embeddings using **ChromaDB**, ensuring fast access to relevant information.
+-   ✂️ **Text Chunking**: Optimizes document processing by splitting text into meaningful chunks that preserve contextual meaning for better retrieval.
 -   🌐 **Interactive Streamlit Interface**: Provides a user-friendly web application for seamless document upload, management, and real-time conversational chat.
 -   🔌 **Flexible FastAPI Backend**: Offers robust REST API endpoints for easy integration with other applications and headless interaction.
 -   📊 **Automated Evaluation Toolkit**: Includes comprehensive metrics and scripts for assessing the **Groundedness** (factual support) and **Relevance** (appropriateness of retrieved documents) of responses.
--   📝 **User Interaction Logging**: Automatically captures user queries, RAG responses, and retrieved sources for continuous quality assurance and system improvement.
 
 ---
 
@@ -75,6 +73,21 @@ Ensure it's listed in `.gitignore`.
 -   **Retrieval Mechanism**: For each user query, the system performs a **top-k semantic chunk matching** using LangChain's vector store retrievers. This process identifies and retrieves the `k` most semantically similar document chunks from ChromaDB, which are then passed to the LLM for answer generation.
 
 ---
+## 🧰 Technologies Used
+
+| Component      | Toolchain                        |
+| -------------- | -------------------------------- |
+| LLM            | Google Gemini + LangChain        |
+| UI             | Streamlit                        |
+| Backend        | FastAPI                          |
+| Embeddings     | Sentence Transformers (`MiniLM`) |
+| Vector DB      | ChromaDB +                       |
+| OCR & Parsing  | pytesseract, PyMuPDF, docx2txt   |
+| Language Tools | langdetect                       |
+| Evaluation     | LLM-as-judge, cosine similarity  |
+| Utilities      | pandas, numpy, hashlib, PyYAML   |
+
+---
 
 ## 🧠 Query Processing Flow
 
@@ -105,16 +118,16 @@ Here are some examples of how RagBi responds to queries in both English and Beng
 
 > **EN:** What is Retrieval-Augmented Generation?
 >
-> ✅ "RAG combines document retrieval with a language model to generate fact-based answers."
+> 🤖 "RAG combines document retrieval with a language model to generate fact-based answers."
 >
 > **BN:** বাংলাদেশের স্বাধীনতা দিবস কবে?
 >
-> ✅ "বাংলাদেশের স্বাধীনতা দিবস ২৬শে মার্চ।"
+> 🤖 "বাংলাদেশের স্বাধীনতা দিবস ২৬শে মার্চ।"
 
 For a visual representation of sample queries and their outputs, refer to the image below:
 
 ![Sample Queries and Outputs](https://github.com/Goffar-dp/ragBE/blob/main/assets/Sample%20Queries.jpg?raw=true)
- `Sample Queries.jpg` 
+ 
 ---
 
 ## 🖥️ Local Execution
@@ -135,22 +148,6 @@ uvicorn api:app --reload --host 0.0.0.0 --port 8000
 
 Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
  
-
----
-
-## 🧰 Technologies Used
-
-| Component      | Toolchain                        |
-| -------------- | -------------------------------- |
-| LLM            | Google Gemini + LangChain        |
-| UI             | Streamlit                        |
-| Backend        | FastAPI + Uvicorn                |
-| Embeddings     | Sentence Transformers (`MiniLM`) |
-| Vector DB      | ChromaDB + SQLite                |
-| OCR & Parsing  | pytesseract, PyMuPDF, docx2txt   |
-| Language Tools | langdetect                       |
-| Evaluation     | LLM-as-judge, cosine similarity  |
-| Utilities      | pandas, numpy, hashlib, PyYAML   |
 
 ---
 
