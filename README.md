@@ -7,7 +7,7 @@
 Experience RagBi live on Streamlit Community Cloud!
 
 **[👉 Launch RagBi App](https://ragbe0.streamlit.app/)**
-![🤖 ragBE] (/assets/interface.png)
+![🤖 ragBE] (/banner.png)
 
 ## 🌟 Key Features
 
