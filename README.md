@@ -129,7 +129,7 @@ Here are some examples of how 🤖ragBi responds to queries in both English and 
 
 - For a **visual** representation of sample queries and their outputs, refer to the image below:
 
-![Sample Queries and Outputs](output.PNG)
+ ![Sample Queries and Outputs](output.PNG)
 
 ---
 
@@ -143,21 +143,23 @@ streamlit run app.py
 
 Browse: [http://localhost:8501](http://localhost:8501)
 
+---
+
 ### 🧪 FastAPI Backend
 
 ```bash
 uvicorn api:app --reload --host 0.0.0.0 --port 8000
----
+```
 Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
  
-
 ---
 
 ## 🧠 Implementation Insights
 
 This section delves into the core technical decisions and methodologies behind RagBi, explaining the "why" behind each choice and the challenges encountered.
 
-### 📌 What method/library was used to extract text and why? Did you face any formatting challenges with the PDF content?
+
+📌 What method/library was used to extract text and why? Did you face any formatting challenges with the PDF content?
 
 For robust text extraction across diverse document types, RagBi employs a multi-faceted approach:
 -   **PDFs:** Primarily, `pypdf` is used for direct, programmatic text extraction from standard PDF documents. This library is efficient for text-based PDFs.
@@ -175,7 +177,7 @@ A significant challenge arises with **scanned PDFs or PDFs containing non-select
 -   **Scanned Quality:** The quality of OCR output is highly dependent on the scan resolution and clarity, which can introduce errors.
 Our multi-pronged extraction strategy, particularly the OCR fallback, aims to maximize text recovery despite these inherent difficulties.
 
-### 📌 What chunking strategy was used and why?
+📌 What chunking strategy was used and why?
 
 RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunking strategy.
 -   **Mechanism:** This splitter operates by attempting to split text using a list of separators, starting with larger, more semantically meaningful ones (e.g., `"\n\n"` for paragraphs, then `"\n"` for lines, then spaces). If a chunk still exceeds the `chunk_size` after trying larger separators, it then recursively splits by smaller delimiters until the `chunk_size` is met.
@@ -186,7 +188,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
     -   **Manageable Size:** It creates chunks that are optimal for embedding models, preventing the dilution of meaning in excessively large chunks or loss of context in overly small ones.
     -   **Robustness to Vague Queries:** The `chunk_overlap` mitigates issues where relevant information might fall at the boundary of two chunks, increasing the likelihood of retrieval even if the query is slightly off-target.
 
-### 📌 What embedding model was chosen and why? How does it capture the meaning of the text?
+📌 What embedding model was chosen and why? How does it capture the meaning of the text?
 
 -   **Model:** The `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` model is used for generating text embeddings.
 -   **Why it was chosen:**
@@ -194,7 +196,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
     -   **Efficiency and Performance:** It offers a strong balance between embedding quality, computational efficiency, and speed, making it suitable for deployment on free-tier cloud resources without sacrificing too much accuracy.
 -   **How it captures meaning:** The embedding model transforms raw text (sentences, paragraphs, or chunks) into high-dimensional numerical vectors (e.g., 384-dimensional for MiniLM). These vectors are designed such that texts with similar meanings or contexts are located "closer" to each other in this multi-dimensional space. This allows the system to perform semantic search, finding relevant information even if the exact keywords are not present, but the underlying meaning matches.
 
-### 📌 How is similarity computed and why this setup?
+📌 How is similarity computed and why this setup?
 
 -   **Similarity Computation:** **Cosine Similarity** is the chosen metric for comparing the user's query embedding with the embeddings of the stored document chunks.
 -   **Why Cosine Similarity:** Cosine similarity measures the cosine of the angle between two non-zero vectors. It's an excellent choice for semantic search because it focuses on the *direction* of the vectors rather than their magnitude. This means it effectively determines how semantically similar two pieces of text are, regardless of their length or the frequency of specific words. A score of 1 indicates perfect similarity, 0 indicates no similarity, and -1 indicates perfect dissimilarity.
@@ -204,7 +206,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
     -   **Efficient Semantic Search:** When a query is received, its embedding is generated and then used to query ChromaDB. ChromaDB quickly identifies and returns the `k` most semantically similar document chunks based on cosine similarity, enabling rapid retrieval of relevant context.
     -   **Persistence:** The `persist_directory` feature allows the knowledge base to be saved and loaded, avoiding re-embedding documents on every application restart.
 
-### 📌 How is query-context alignment ensured? What would happen if the query is vague or missing context?
+📌 How is query-context alignment ensured? What would happen if the query is vague or missing context?
 
 -   **Ensuring Meaningful Alignment:**
     -   **Unified Embedding Space:** The multilingual embedding model (`paraphrase-multilingual-MiniLM-L12-v2`) is foundational. It ensures that both the user's query (English or Bengali) and the document chunks are transformed into a common semantic vector space. This allows for direct and meaningful comparison (via cosine similarity) across languages and ensures that the underlying meaning is captured, not just lexical overlap.
@@ -214,7 +216,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
     -   If a query is **vague** (e.g., "Tell me about it"), the embedding generated will reflect this lack of specificity. The retriever will then find chunks that are broadly semantically closest to that vague query. This might result in a wider, less precise set of retrieved documents. The LLM's response will likely be general or might indicate that more specific information is needed.
     -   If a query is **missing context** (e.g., "What is the capital?" without specifying "of Bangladesh"), the system will still attempt retrieval. It might return chunks related to "capital" in a general sense or from documents it deems broadly relevant. The LLM may then provide a generic answer or, ideally, ask for clarification if the retrieved context doesn't provide a definitive answer. The quality of retrieval for vague queries is highly dependent on the diversity and clarity of the indexed document corpus.
 
-### 📌 Are results relevant? What can improve them?
+📌 Are results relevant? What can improve them?
 
 -   **Observed Relevance:** Generally, the results demonstrate a good level of relevance, especially for short, factual queries that have direct answers within the indexed documents. The multilingual embedding model effectively bridges language barriers for semantic search. However, as indicated by evaluation metrics (e.g., an average relevance score of ~0.44), there is always room for improvement.
 -   **Potential Improvements:**
@@ -224,6 +226,7 @@ RagBi utilizes LangChain's `RecursiveCharacterTextSplitter` for its text chunkin
     -   **Reranking:** Implementing a reranker model (often a cross-encoder model) after the initial retrieval step can re-score the top `k` chunks. This process can significantly improve the relevance of the final set of chunks passed to the LLM by prioritizing the most pertinent information.
     -   **Advanced Prompt Engineering:** Refining the prompt given to the Gemini LLM, perhaps with few-shot examples or more explicit instructions on how to synthesize information from the retrieved context, can lead to more accurate and grounded answers.
     -   **Corpus Quality and Size:** The most fundamental improvement often comes from expanding the size, diversity, and quality of the document corpus itself. A more comprehensive and well-structured knowledge base directly correlates with better retrieval and answer generation.
+
 ---
 
 ## 📁 Folder Structure
