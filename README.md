@@ -106,13 +106,14 @@ Ensure it's listed in `.gitignore`.
 
 - 📌 **Relevance**: Measures semantic similarity to query
 
-- 
 To run the evaluation, execute the script:
 
 ```bash
 python evaluate_rag.py
 ---
+![🤖 ragBE](evaluation.PNG)
 
+Based on the evaluation of 10 interactions, RagBi achieved an **Average Relevance Score of 0.6098**, indicating that the retrieved documents were generally quite pertinent to the queries. For **Groundedness**, 50% of responses were fully supported by the context, while 20% had partial support and 30% were not grounded. This highlights a strong foundation in relevance but also points to the need for further refinement to minimize ungrounded responses.
 ## 💬 Sample Queries
 
 Here are some examples of how 🤖ragBE responds to qrueries in both English and Bengali:
