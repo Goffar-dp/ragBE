@@ -1,0 +1,5 @@
+version: "1"
+api:
+  base_url: "https://generativelanguage.googleapis.com/v1"
+  api_key: "YOUR GEMINI API KEY HERE"
+  model: "gemini-2.5-flash" # You can change this to any other model you want to use
