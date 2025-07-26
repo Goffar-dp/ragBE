@@ -1,16 +1,25 @@
 import streamlit as st
 import pandas as pd
 import hashlib
-import json # Added for JSON logging
-from datetime import datetime # Added for timestamps
-import os # Added for file path management
+import json
+from datetime import datetime
+import os
+
+# --- CRITICAL PATCH FOR CHROMADB/SQLITE3 ON STREAMLIT CLOUD ---
+# This ensures that chromadb uses pysqlite3, which is compatible,
+# instead of the potentially outdated system sqlite3.
+try:
+    __import__("pysqlite3")
+    import sys
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass # If pysqlite3 is not available, proceed with default sqlite3 (will likely fail if old)
+# --- END CRITICAL PATCH ---
 
 # Assuming ragbi.py is in the same directory
 from ragbi import process_documents, get_ragbi_response, GeminiLLM, detect_language
 
 # --- Configuration for Logging ---
-# Define the path for  log file.
-# It will be created in the same directory as app.py
 LOG_FILE_PATH = "ragbi_user_interactions.jsonl"
 
 # --- Logging Function ---
@@ -20,8 +29,8 @@ def log_interaction(query: str, answer: str, sources: list, session_id: str = "d
     Each line in the file will be a JSON object representing one interaction.
     """
     log_entry = {
-        "timestamp": datetime.now().isoformat(), # ISO format for easy parsing
-        "session_id": session_id, # Can be expanded for multi-user scenarios
+        "timestamp": datetime.now().isoformat(),
+        "session_id": session_id,
         "user_query": query,
         "ragbi_answer": answer,
         "retrieved_sources": sources
@@ -29,10 +38,9 @@ def log_interaction(query: str, answer: str, sources: list, session_id: str = "d
     try:
         with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
             f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
-        # print(f"Logged interaction to {LOG_FILE_PATH}") # For debugging
     except Exception as e:
         print(f"Error logging interaction: {e}")
-        
+
 # Set page configuration
 st.set_page_config(
     page_title="Bilingual RAG Chatbot",
@@ -57,8 +65,6 @@ if "file_data_list" not in st.session_state:
     st.session_state.file_data_list = []
 
 # --- Generate a simple session ID for logging ---
-# This creates a new session ID each time the app is run or reloaded.
-# For more robust user tracking, you'd integrate a proper login system.
 if "session_id" not in st.session_state:
     st.session_state.session_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
 
@@ -178,7 +184,7 @@ if query:
                         "content": error_msg
                     })
 
-# language detection info
+# Add language detection info
 if st.session_state.chat_history:
     user_queries = [msg["content"] for msg in st.session_state.chat_history if msg["role"] == "user"]
     if user_queries:
