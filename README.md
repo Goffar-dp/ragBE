@@ -258,10 +258,6 @@ ragBE/
 
 ---
 
-## 🙌 Contributing
-
-We welcome issues, pull requests, and feedback from the community!
-
 ---
 
 ## 📄 License
